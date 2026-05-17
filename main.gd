@@ -1,30 +1,28 @@
 extends Node2D
 
-# This grabs a reference to your Ball node so we can talk to it
-@onready var ball = $Ball
+## Main game scene controller.
+##
+## Manages goal detection zones, game boundaries, and scene-level transitions.
 
-func _ready():
-	# Get the exact size of the device screen
-	var screen_size = get_viewport_rect().size
+@onready var ball: CharacterBody2D = $Ball
+
+func _ready() -> void:
+	var screen_size := get_viewport_rect().size
 	
-	# Snap the top goal slightly above the top edge
+	# Dynamically position goals based on viewport dimensions
 	$GoalTop.global_position.y = -20 
-	
-	# Snap the bottom goal slightly below the bottom edge
 	$GoalBottom.global_position.y = screen_size.y + 20
 
-func _on_goal_top_body_entered(body):
-	# Check if the object that hit the goal is named "Ball"
+## Triggered when ball enters the top goal (Bottom player scores).
+func _on_goal_top_body_entered(body: Node2D) -> void:
 	if body.name == "Ball":
-		print("Bottom Player Scores!")
 		ball.reset_ball()
 
-func _on_goal_bottom_body_entered(body):
+## Triggered when ball enters the bottom goal (Top player scores).
+func _on_goal_bottom_body_entered(body: Node2D) -> void:
 	if body.name == "Ball":
-		print("Top Player Scores!")
 		ball.reset_ball()
 
-
-func _on_home_btn_pressed():
-	# This destroys the current game and takes you back to the menu
+## Returns user to the main menu scene.
+func _on_home_btn_pressed() -> void:
 	get_tree().change_scene_to_file("res://main_menu.tscn")
