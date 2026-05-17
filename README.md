@@ -1,49 +1,59 @@
-# Pawng 🐾
+# Pawng Technical Documentation
 
-Pawng is a modern, mobile-oriented reimagining of the classic Pong game, built with the **Godot Engine 4.5**. Featuring adorable paw-themed aesthetics, it offers both solo play against an AI and local multiplayer for competitive fun on a single device.
+Pawng is a high-performance, mobile-optimized 2D sports simulation developed using the Godot Engine 4.5. This project serves as a modern implementation of classic paddle-and-ball mechanics, specifically engineered for vertical handheld devices and touch-based interaction.
 
-![Logo](icon.svg)
+## Core Technical Specifications
 
-## 🌟 Features
+*   **Engine**: Godot 4.5
+*   **Renderer**: Forward+ (Mobile)
+*   **Language**: GDScript 2.0
+*   **Target Resolution**: 720x1280 (Portrait)
+*   **Aspect Ratio**: 9:16 with Expand Stretch Mode
+*   **Input**: Emulated Touch from Mouse (Point-and-Drag)
 
-- **Single Player Mode**: Test your skills against a smart AI that dynamically tracks the ball.
-- **Two Player Mode**: Compete with a friend on the same screen with touch-optimized controls.
-- **Mobile Optimized**: Designed for a vertical (portrait) orientation with a native 720x1280 resolution.
-- **Dynamic Difficulty**: The ball increases in speed with every bounce, keeping every round intense.
-- **Polished Visuals**: Smooth transitions, scale-in effects on ball reset, and custom paw-themed assets.
+## Gameplay Mechanics
 
-## 🕹️ Controls
+### Physics and Collision Detection
+The game utilizes a deterministic velocity-based reflection system. The ball is implemented as a `CharacterBody2D`, leveraging `move_and_collide` to handle high-velocity impacts without tunneling.
+*   **Velocity Scaling**: Upon every successful collision with a paddle, the ball's velocity magnitude is multiplied by a configurable `speed_multiplier` (default 1.05).
+*   **Reflection Logic**: Standard vector reflection is applied using the collision normal: `velocity.bounce(collision.get_normal())`.
 
-- **Single Player**: Drag your finger (or mouse) across the bottom half of the screen to move your paw.
-- **Two Player**:
-  - **Top Player**: Controls the top paw by dragging on the top half of the screen.
-  - **Bottom Player**: Controls the bottom paw by dragging on the bottom half of the screen.
+### AI Implementation
+The single-player opponent employs a heuristic-based tracking algorithm.
+*   **Target Acquisition**: The AI identifies the ball's X-coordinate globally.
+*   **Movement Smoothing**: Instead of instant snapping, the AI utilizes the `move_toward` function, capped by an `ai_speed` variable, to simulate human-like reaction latency and travel time.
+*   **Clamping**: AI movement is constrained within safe screen bounds to prevent clipping into side boundaries.
 
-## 🛠️ Technical Details
+### State Management and Scene Flow
+*   **Global Reset**: When a goal is detected via `Area2D` triggers, the `main.gd` controller invokes a reset sequence.
+*   **Tweening System**: The ball uses Godot's `Tween` API to handle the respawn animation, smoothly interpolating the `scale` property from `Vector2.ZERO` to its original dimensions before applying an initial impulse.
 
-### Architecture
-- **Engine**: Godot 4.5 (Mobile Renderer).
-- **Language**: GDScript.
-- **Resolution**: 720x1280 (Portrait).
-- **Physics**: Utilizes `CharacterBody2D` for both players and the ball, with `move_and_collide` for precise bounce logic.
+## Project Structure
 
-### Core Components
-- `ball.gd`: Manages ball movement, speed multipliers, and the "shrink-to-reveal" reset animation using Tweens.
-- `player.gd`: A versatile script handling both human input and AI logic.
-- `main.gd`: Handles game state, goal detection, and scene transitions.
-- `main_menu.gd`: User interface management for navigating between game modes.
+### Scene Tree Hierarchy
+*   **Main Menu**: Entry point handling user navigation and mode selection.
+*   **Game Arena**: Contains the physics environment, boundaries, and score zones.
+*   **Actors**:
+    *   `Player`: Versatile node handling both local input (top/bottom) and AI states.
+    *   `Ball`: Self-contained physics object with internal speed management.
 
-## 🚀 Getting Started
+### Key Scripts
+*   `ball.gd`: Logic for speed progression, bounce calculations, and tween-based reset cycles.
+*   `player.gd`: Input multiplexer handling `InputEventScreenDrag` for players and target tracking for AI.
+*   `main.gd`: Coordinate-based goal placement and scene lifecycle management.
 
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/Xain-Ul-Abedin/Pawng-Godot-Ongoing.git
-   ```
-2. **Open in Godot**: Launch Godot 4.5 and import the `project.godot` file located in the `Pawng-Godot-Ongoing` directory.
-3. **Play**: Press F5 to run the project.
+## Deployment and Installation
 
-## 🎨 Assets
-The project includes custom-designed paw assets and buttons located in the `Assets/` directory.
+1.  **Repository Acquisition**:
+    ```bash
+    git clone https://github.com/Xain-Ul-Abedin/Pawng-Godot-Ongoing.git
+    ```
+2.  **Environment Setup**: Ensure Godot Engine 4.5 or higher is installed.
+3.  **Project Import**: Select the `project.godot` file in the project manager to load the workspace.
+4.  **Execution**: Utilize the built-in debugger or export to Android/iOS using the provided presets.
+
+## Assets and Licensing
+All graphical assets, including paw-themed sprites and UI components, are located in the `Assets/` directory. These are optimized for the Godot Mobile renderer with appropriate VRAM compression settings.
 
 ---
-*Created with ❤️ by Zain-Ul-Abedin*
+*Documentation maintained by Zain-Ul-Abedin*
