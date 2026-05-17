@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://neafyrt5gjco"]
+
+[ext_resource type="Script" uid="uid://bidfrcqj7pxin" path="res://ball.gd" id="1_41u45"]
+[ext_resource type="Texture2D" uid="uid://phwkoepdo1jm" path="res://Assets/pongBall.png" id="1_x8fbi"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_41u45"]
+radius = 164.57521
+
+[node name="Ball" type="CharacterBody2D"]
+script = ExtResource("1_41u45")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("1_x8fbi")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(3, -13)
+shape = SubResource("CircleShape2D_41u45")

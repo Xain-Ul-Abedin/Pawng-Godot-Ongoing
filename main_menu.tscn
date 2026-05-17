@@ -1,0 +1,60 @@
+[gd_scene load_steps=4 format=3 uid="uid://crev2inf1u6xe"]
+
+[ext_resource type="Texture2D" uid="uid://kr7uswqwjx7u" path="res://Assets/Play_Button.png" id="1_7vrkn"]
+[ext_resource type="Script" uid="uid://dn12u7ocbrg15" path="res://main_menu.gd" id="1_fu7sn"]
+[ext_resource type="Texture2D" uid="uid://dbcjvi8uuqby3" path="res://Assets/Exit_Button.png" id="2_fu7sn"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fu7sn")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -105.0
+offset_top = -191.0
+offset_right = 101.0
+offset_bottom = 219.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SinglePlayerBtn" type="TextureButton" parent="VBoxContainer"]
+layout_mode = 2
+texture_normal = ExtResource("1_7vrkn")
+
+[node name="Label" type="Label" parent="VBoxContainer/SinglePlayerBtn"]
+layout_mode = 0
+offset_left = 75.0
+offset_top = 125.0
+offset_right = 137.0
+offset_bottom = 148.0
+text = "1 Player"
+
+[node name="twoPlayerBtn2" type="TextureButton" parent="VBoxContainer"]
+layout_mode = 2
+texture_normal = ExtResource("1_7vrkn")
+
+[node name="Label" type="Label" parent="VBoxContainer/twoPlayerBtn2"]
+layout_mode = 0
+offset_left = 75.0
+offset_top = 125.0
+offset_right = 137.0
+offset_bottom = 148.0
+text = "2 Player"
+
+[node name="quit" type="TextureButton" parent="VBoxContainer"]
+layout_mode = 2
+texture_normal = ExtResource("2_fu7sn")
+
+[connection signal="pressed" from="VBoxContainer/SinglePlayerBtn" to="." method="_on_single_player_btn_pressed"]
+[connection signal="pressed" from="VBoxContainer/twoPlayerBtn2" to="." method="_on_two_player_btn_2_pressed"]
+[connection signal="pressed" from="VBoxContainer/quit" to="." method="_on_quit_pressed"]
